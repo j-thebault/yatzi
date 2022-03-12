@@ -1,6 +1,5 @@
 package yatzi;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -213,15 +212,26 @@ public class YatzyScorerTest {
         return Stream.of(
             new YatzySpecification(List.of(1,2,3,4,5), 15),
             new YatzySpecification(List.of(2,3,4,5,1), 15),
-            new YatzySpecification(List.of(1,2,2,4,5), 0)
-        );
+            new YatzySpecification(List.of(1,2,2,4,5), 0),
+            // Adding a dataset to check that large straight doesn't match on small straight category
+            new YatzySpecification(List.of(2,3,4,5,6), 0)
+            );
     }
 
-    @Test
-    public void largeStraight() {
-        assertEquals(20, YatzyScorer.largeStraight(6,2,3,4,5));
-        assertEquals(20, YatzyScorer.largeStraight(2,3,4,5,6));
-        assertEquals(0, YatzyScorer.largeStraight(1,2,2,4,5));
+    @ParameterizedTest(name = "#{index} - Large Straight {0}")
+    @MethodSource
+    public void largeStraightSpecification(YatzySpecification spec) {
+        assertEquals(spec.expectedResult, new YatzyScorer(spec.dices).largeStraight());
+    }
+
+    private static Stream<YatzySpecification> largeStraightSpecification(){
+        return Stream.of(
+            new YatzySpecification(List.of(6,2,3,4,5), 20),
+            new YatzySpecification(List.of(2,3,4,5,6), 20),
+            new YatzySpecification(List.of(1,2,2,4,5), 0),
+            // Adding a dataset to check that small straight doesn't match on large straight category
+            new YatzySpecification(List.of(1,2,3,4,5), 0)
+        );
     }
 
     static class YatzySpecification {
