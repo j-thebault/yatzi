@@ -203,11 +203,18 @@ public class YatzyScorerTest {
         );
     }
 
-    @Test
-    public void smallStraight() {
-        assertEquals(15, YatzyScorer.smallStraight(1,2,3,4,5));
-        assertEquals(15, YatzyScorer.smallStraight(2,3,4,5,1));
-        assertEquals(0, YatzyScorer.smallStraight(1,2,2,4,5));
+    @ParameterizedTest(name = "#{index} - Small Straight {0}")
+    @MethodSource
+    public void smallStraightSpecification(YatzySpecification spec) {
+        assertEquals(spec.expectedResult, new YatzyScorer(spec.dices).smallStraight());
+    }
+
+    private static Stream<YatzySpecification> smallStraightSpecification(){
+        return Stream.of(
+            new YatzySpecification(List.of(1,2,3,4,5), 15),
+            new YatzySpecification(List.of(2,3,4,5,1), 15),
+            new YatzySpecification(List.of(1,2,2,4,5), 0)
+        );
     }
 
     @Test
