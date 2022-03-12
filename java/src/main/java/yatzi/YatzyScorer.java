@@ -6,10 +6,20 @@ import java.util.List;
 
 public class YatzyScorer {
 
+    private static final int DICE_SET_SIZE = 5;
     private final List<Integer> diceList;
 
     public YatzyScorer(List<Integer> diceList) {
+        // I added a validation here because in old code, the methods have (d1,d2,d3,d4,d5) arguments
+        // I don't like methods with so many arguments, but here they had the benefit to indicate to caller the number of expected dices
+        validateDiceList(diceList);
         this.diceList = diceList;
+    }
+
+    private void validateDiceList(List<Integer> diceList) {
+        if (diceList.size() != DICE_SET_SIZE) {
+            throw new IllegalArgumentException(String.format("A complete dice set is %s dices", DICE_SET_SIZE));
+        }
     }
 
     public int chance() {
@@ -30,22 +40,6 @@ public class YatzyScorer {
 
     public int threes() {
         return score(new Matches(3));
-    }
-
-    protected Integer[] dice;
-    public YatzyScorer(int d1, int d2, int d3, int d4, int _5)
-    {
-        dice = new Integer[5];
-        dice[0] = d1;
-        dice[1] = d2;
-        dice[2] = d3;
-        dice[3] = d4;
-        dice[4] = _5;
-        diceList = null;
-    }
-
-    private Integer score(Category category){
-        return category.score(diceList);
     }
 
     public int fours() {
@@ -86,6 +80,10 @@ public class YatzyScorer {
 
     public int fullHouse() {
         return score(new FullHouse());
+    }
+
+    private Integer score(Category category) {
+        return category.score(diceList);
     }
 }
 
