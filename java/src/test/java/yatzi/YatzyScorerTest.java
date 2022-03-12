@@ -53,10 +53,17 @@ public class YatzyScorerTest {
         );
     }
 
-    @Test
-    public void test_2s() {
-        assertEquals(4, YatzyScorer.twos(1,2,3,2,6));
-        assertEquals(10, YatzyScorer.twos(2,2,2,2,2));
+    @ParameterizedTest(name = "#{index} - Twos {0}")
+    @MethodSource
+    public void twosSpecification(YatzySpecification spec) {
+        assertEquals(spec.expectedResult, new YatzyScorer(spec.dices).twos());
+    }
+
+    private static Stream<YatzySpecification> twosSpecification(){
+        return Stream.of(
+            new YatzySpecification(List.of(1,2,3,2,6), 4),
+            new YatzySpecification(List.of(2,2,2,2,2), 10)
+        );
     }
 
     @Test
@@ -64,6 +71,8 @@ public class YatzyScorerTest {
         assertEquals(6, YatzyScorer.threes(1,2,3,2,3));
         assertEquals(12, YatzyScorer.threes(2,3,3,3,3));
     }
+
+
 
     @Test
     public void fours_test() 
