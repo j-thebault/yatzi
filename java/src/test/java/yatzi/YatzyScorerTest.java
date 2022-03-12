@@ -121,11 +121,23 @@ public class YatzyScorerTest {
         );
     }
 
-    @Test
-    public void one_pair() {
-        assertEquals(6, YatzyScorer.score_pair(3,4,3,5,6));
-        assertEquals(10, YatzyScorer.score_pair(5,3,3,3,5));
-        assertEquals(12, YatzyScorer.score_pair(5,3,6,6,5));
+    @ParameterizedTest(name = "#{index} - One Pair {0}")
+    @MethodSource
+    public void onePairSpecification(YatzySpecification spec) {
+        assertEquals(spec.expectedResult, new YatzyScorer(spec.dices).onePair());
+    }
+
+    private static Stream<YatzySpecification> onePairSpecification(){
+        return Stream.of(
+            // Adding some spec from https://sammancoaching.org/kata_descriptions/yatzy.html
+            // The "no pair" dataset seems important to me and was not included in original test set
+            // The (x,x,x,x,y) was also important to check that pair always give value * 2 even with more than two dices with same value
+            new YatzySpecification(List.of(1,2,3,4,5), 0),
+            new YatzySpecification(List.of(3,4,3,5,6), 6),
+            new YatzySpecification(List.of(3,3,3,3,1), 6),
+            new YatzySpecification(List.of(5,3,3,3,5), 10),
+            new YatzySpecification(List.of(5,3,6,6,5), 12)
+        );
     }
 
     @Test
