@@ -1,18 +1,27 @@
 package yatzi;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.List;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class YatzyTest {
 
-    @Test
-    public void chance_scores_sum_of_all_dice() {
-        int expected = 15;
-        int actual = Yatzy.chance(2,3,4,5,1);
-        assertEquals(expected, actual);
-        assertEquals(16, Yatzy.chance(3,3,4,5,1));
+    @ParameterizedTest(name = "#{index} - Chance {0}")
+    @MethodSource
+    public void chanceSpecification(YatzySpecification spec) {
+        assertEquals(spec.expectedResult, new Yatzy(spec.dices).chance());
+    }
+
+    private static Stream<YatzySpecification> chanceSpecification(){
+        return Stream.of(
+            new YatzySpecification(List.of(2,3,4,5,1), 15),
+            new YatzySpecification(List.of(3,3,4,5,1), 16));
     }
 
     @Test public void yatzy_scores_50() {
@@ -110,5 +119,22 @@ public class YatzyTest {
     public void fullHouse() {
         assertEquals(18, Yatzy.fullHouse(6,2,2,2,6));
         assertEquals(0, Yatzy.fullHouse(2,3,4,5,6));
+    }
+
+    static class YatzySpecification {
+        public final List<Integer> dices;
+        public final Integer expectedResult;
+
+        YatzySpecification(List<Integer> dices, Integer expectedResult) {
+            this.dices = dices;
+            this.expectedResult = expectedResult;
+        }
+
+        @Override
+        public String toString() {
+            return
+                " with dices " + dices +
+                " should give a score of " + expectedResult;
+        }
     }
 }

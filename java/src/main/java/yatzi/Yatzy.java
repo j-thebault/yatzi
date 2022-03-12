@@ -1,16 +1,22 @@
 package yatzi;
 
+import yatzi.categories.Category;
+import yatzi.categories.Chance;
+
+import java.util.Arrays;
+import java.util.List;
+
 public class Yatzy {
 
-    public static int chance(int d1, int d2, int d3, int d4, int d5)
+    private final List<Integer> diceList;
+
+    public Yatzy(List<Integer> diceList) {
+        this.diceList = diceList;
+    }
+
+    public int chance()
     {
-        int total = 0;
-        total += d1;
-        total += d2;
-        total += d3;
-        total += d4;
-        total += d5;
-        return total;
+        return score(new Chance());
     }
 
     public static int yatzy(int... dice)
@@ -57,15 +63,20 @@ public class Yatzy {
         return s;
     }
 
-    protected int[] dice;
+    protected Integer[] dice;
     public Yatzy(int d1, int d2, int d3, int d4, int _5)
     {
-        dice = new int[5];
+        dice = new Integer[5];
         dice[0] = d1;
         dice[1] = d2;
         dice[2] = d3;
         dice[3] = d4;
         dice[4] = _5;
+        diceList = null;
+    }
+
+    private Integer score(Category category){
+        return category.score(diceList);
     }
 
     public int fours()
