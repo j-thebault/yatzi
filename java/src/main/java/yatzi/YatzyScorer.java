@@ -61,7 +61,7 @@ public class YatzyScorer {
     }
 
     public int onePair() {
-        return score(new OnePair());
+        return score(new ManyOfAKind(2));
     }
 
     public int twoPairs() {

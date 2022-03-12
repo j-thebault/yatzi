@@ -13,10 +13,10 @@ public class ManyOfAKind implements Category {
 
     @Override
     public Integer score(List<Integer> dices) {
-        Optional<Integer> threeOfAKindScore = Multiples.fromDices(dices)
+        Optional<Integer> score = Multiples.fromDices(dices)
             .findMultiple(threshold)
-            .findFirst()
+            .max(Integer::compareTo)
             .map(dice -> dice * threshold);
-        return threeOfAKindScore.orElse(0);
+        return score.orElse(0);
     }
 }
