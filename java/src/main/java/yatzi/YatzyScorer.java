@@ -31,15 +31,8 @@ public class YatzyScorer {
         return score(new Matches(2));
     }
 
-    public static int threes(int d1, int d2, int d3, int d4, int d5) {
-        int s;    
-        s = 0;
-        if (d1 == 3) s += 3;
-        if (d2 == 3) s += 3;
-        if (d3 == 3) s += 3;
-        if (d4 == 3) s += 3;
-        if (d5 == 3) s += 3;
-        return s;
+    public int threes() {
+        return score(new Matches(3));
     }
 
     protected Integer[] dice;
@@ -58,35 +51,16 @@ public class YatzyScorer {
         return category.score(diceList);
     }
 
-    public int fours()
-    {
-        int sum;    
-        sum = 0;
-        for (int at = 0; at != 5; at++) {
-            if (dice[at] == 4) {
-                sum += 4;
-            }
-        }
-        return sum;
+    public int fours() {
+        return score(new Matches(4));
     }
 
-    public int fives()
-    {
-        int s = 0;
-        int i;
-        for (i = 0; i < dice.length; i++) 
-            if (dice[i] == 5)
-                s = s + 5;
-        return s;
+    public int fives() {
+        return score(new Matches(5));
     }
 
-    public int sixes()
-    {
-        int sum = 0;
-        for (int at = 0; at < dice.length; at++) 
-            if (dice[at] == 6)
-                sum = sum + 6;
-        return sum;
+    public int sixes() {
+        return score(new Matches(6));
     }
 
     public static int score_pair(int d1, int d2, int d3, int d4, int d5)
@@ -118,7 +92,7 @@ public class YatzyScorer {
             if (counts[6-i-1] >= 2) {
                 n++;
                 score += (6-i);
-            }        
+            }
         if (n == 2)
             return score * 2;
         else

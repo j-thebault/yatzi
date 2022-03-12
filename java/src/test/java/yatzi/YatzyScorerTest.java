@@ -66,34 +66,59 @@ public class YatzyScorerTest {
         );
     }
 
-    @Test
-    public void test_threes() {
-        assertEquals(6, YatzyScorer.threes(1,2,3,2,3));
-        assertEquals(12, YatzyScorer.threes(2,3,3,3,3));
+    @ParameterizedTest(name = "#{index} - Threes {0}")
+    @MethodSource
+    public void threesSpecification(YatzySpecification spec) {
+        assertEquals(spec.expectedResult, new YatzyScorer(spec.dices).threes());
     }
 
-
-
-    @Test
-    public void fours_test() 
-    {
-        assertEquals(12, new YatzyScorer(4,4,4,5,5).fours());
-        assertEquals(8, new YatzyScorer(4,4,5,5,5).fours());
-        assertEquals(4, new YatzyScorer(4,5,5,5,5).fours());
+    private static Stream<YatzySpecification> threesSpecification(){
+        return Stream.of(
+            new YatzySpecification(List.of(1,2,3,2,3), 6),
+            new YatzySpecification(List.of(2,3,3,3,3), 12)
+        );
     }
 
-    @Test
-    public void fives() {
-        assertEquals(10, new YatzyScorer(4,4,4,5,5).fives());
-        assertEquals(15, new YatzyScorer(4,4,5,5,5).fives());
-        assertEquals(20, new YatzyScorer(4,5,5,5,5).fives());
+    @ParameterizedTest(name = "#{index} - Fours {0}")
+    @MethodSource
+    public void foursSpecification(YatzySpecification spec) {
+        assertEquals(spec.expectedResult, new YatzyScorer(spec.dices).fours());
     }
 
-    @Test
-    public void sixes_test() {
-        assertEquals(0, new YatzyScorer(4,4,4,5,5).sixes());
-        assertEquals(6, new YatzyScorer(4,4,6,5,5).sixes());
-        assertEquals(18, new YatzyScorer(6,5,6,6,5).sixes());
+    private static Stream<YatzySpecification> foursSpecification(){
+        return Stream.of(
+            new YatzySpecification(List.of(4,4,4,5,5), 12),
+            new YatzySpecification(List.of(4,4,5,5,5), 8),
+            new YatzySpecification(List.of(4,5,5,5,5), 4)
+        );
+    }
+
+    @ParameterizedTest(name = "#{index} - Fives {0}")
+    @MethodSource
+    public void fivesSpecification(YatzySpecification spec) {
+        assertEquals(spec.expectedResult, new YatzyScorer(spec.dices).fives());
+    }
+
+    private static Stream<YatzySpecification> fivesSpecification(){
+        return Stream.of(
+            new YatzySpecification(List.of(4,4,4,5,5), 10),
+            new YatzySpecification(List.of(4,4,5,5,5), 15),
+            new YatzySpecification(List.of(4,5,5,5,5), 20)
+        );
+    }
+
+    @ParameterizedTest(name = "#{index} - Sixes {0}")
+    @MethodSource
+    public void sixesSpecification(YatzySpecification spec) {
+        assertEquals(spec.expectedResult, new YatzyScorer(spec.dices).sixes());
+    }
+
+    private static Stream<YatzySpecification> sixesSpecification(){
+        return Stream.of(
+            new YatzySpecification(List.of(4,4,4,5,5), 0),
+            new YatzySpecification(List.of(4,4,6,5,5), 6),
+            new YatzySpecification(List.of(6,5,6,6,5), 18)
+        );
     }
 
     @Test
