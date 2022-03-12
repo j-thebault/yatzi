@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class YatzyScorerTest {
 
@@ -131,7 +130,7 @@ public class YatzyScorerTest {
         return Stream.of(
             // Adding some spec from https://sammancoaching.org/kata_descriptions/yatzy.html
             // The "no pair" dataset seems important to me and was not included in original test set
-            // The (x,x,x,x,y) was also important to check that pair always give value * 2 even with more than two dices with same value
+            // The (x,x,x,x,y) was also important to check that pair always give value * 2 even with more than two dices have the same value
             new YatzySpecification(List.of(1,2,3,4,5), 0),
             new YatzySpecification(List.of(3,4,3,5,6), 6),
             new YatzySpecification(List.of(3,3,3,3,1), 6),
@@ -140,14 +139,23 @@ public class YatzyScorerTest {
         );
     }
 
-    @Test
-    public void two_Pair() {
-        assertEquals(16, YatzyScorer.two_pair(3,3,5,4,5));
-        assertEquals(16, YatzyScorer.two_pair(3,3,5,5,5));
+    @ParameterizedTest(name = "#{index} - Two Pairs {0}")
+    @MethodSource
+    public void twoPairsSpecification(YatzySpecification spec) {
+        assertEquals(spec.expectedResult, new YatzyScorer(spec.dices).twoPairs());
+    }
+
+    private static Stream<YatzySpecification> twoPairsSpecification(){
+        return Stream.of(
+            // Same as onePairSpecification, I added a "no match" spec that check the 0 score.
+            new YatzySpecification(List.of(1,2,3,4,5), 0),
+            new YatzySpecification(List.of(3,3,5,4,5), 16),
+            new YatzySpecification(List.of(3,3,5,5,5), 16)
+        );
     }
 
     @Test
-    public void three_of_a_kind() 
+    public void three_of_a_kind()
     {
         assertEquals(9, YatzyScorer.three_of_a_kind(3,3,3,4,5));
         assertEquals(15, YatzyScorer.three_of_a_kind(5,3,5,4,5));
