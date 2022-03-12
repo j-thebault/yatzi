@@ -20,7 +20,7 @@ public abstract class Straight implements Category {
     }
 
     private Integer calculateScore(List<Integer> sorted) {
-        Integer score = 0;
+        Integer score = NO_COMBINATION_SCORE;
         if (straight().equals(sorted)) {
             score = DiceUtils.sum(sorted);
         }

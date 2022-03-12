@@ -55,7 +55,7 @@ public class YatzyScorer {
     }
 
     public int onePair() {
-        return score(new ManyOfAKind(2));
+        return score(new ManyOfAKind(Combinations.PAIR));
     }
 
     public int twoPairs() {
@@ -63,11 +63,11 @@ public class YatzyScorer {
     }
 
     public int threeOfAKind() {
-        return score(new ManyOfAKind(3));
+        return score(new ManyOfAKind(Combinations.THREE_OF_A_KIND));
     }
 
     public int fourOfAKind() {
-        return score(new ManyOfAKind(4));
+        return score(new ManyOfAKind(Combinations.FOUR_OF_A_KIND));
     }
 
     public int smallStraight() {

@@ -14,6 +14,6 @@ public class Matches implements Category {
     public Integer score(List<Integer> dices) {
         return dices.stream()
             .filter(dice -> dice.equals(matchingDice))
-            .reduce(0, Integer::sum);
+            .reduce(NO_COMBINATION_SCORE, Integer::sum);
     }
 }

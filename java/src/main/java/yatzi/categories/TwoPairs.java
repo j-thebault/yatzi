@@ -1,5 +1,7 @@
 package yatzi.categories;
 
+import yatzi.Combinations;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,17 +16,17 @@ public class TwoPairs implements Category {
 
     private List<Integer> findPairs(List<Integer> dices) {
         return Multiples.fromDices(dices)
-            .findByThreshold(2)
+            .findByThreshold(Combinations.PAIR)
             .collect(Collectors.toList());
     }
 
     private Integer calculateScore(List<Integer> pairs) {
-        Integer score = 0;
+        Integer score = NO_COMBINATION_SCORE;
         if (pairs.size() == 2) {
             score = new HashSet<>(pairs)
                 .stream()
                 .map(dice -> dice * 2)
-                .reduce(0, Integer::sum);
+                .reduce(NO_COMBINATION_SCORE, Integer::sum);
         }
         return score;
     }

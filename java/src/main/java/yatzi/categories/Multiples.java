@@ -26,9 +26,7 @@ public class Multiples {
      * - findByThreshold(4) -> []
      */
     public Stream<Integer> findByThreshold(Integer threshold){
-        return dicesCount.entrySet().stream()
-            .filter(diceCount -> diceCount.getValue() >= threshold)
-            .map(Map.Entry::getKey);
+        return filter((diceCount -> diceCount >= threshold));
     }
 
     /**
@@ -41,9 +39,11 @@ public class Multiples {
      * - findByExactCount(4) -> []
      */
     public Stream<Integer> findByExactCount(Integer count){
-        return dicesCount.entrySet().stream()
-            .filter(diceCount -> diceCount.getValue().equals(count.longValue()))
-            .map(Map.Entry::getKey);
+        return filter((diceCount -> diceCount.equals(count.longValue())));
+    }
+
+    public boolean hasExactCount(Integer count){
+        return findByExactCount(count).findFirst().isPresent();
     }
 
     public static Multiples fromDices(List<Integer> dices) {
@@ -53,5 +53,11 @@ public class Multiples {
                     Function.identity(),
                     Collectors.counting()));
         return new Multiples(dicesCount);
+    }
+
+    private Stream<Integer> filter(Function<Long, Boolean> filter){
+        return dicesCount.entrySet().stream()
+            .filter(diceCount -> filter.apply(diceCount.getValue()))
+            .map(Map.Entry::getKey);
     }
 }

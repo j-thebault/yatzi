@@ -17,6 +17,6 @@ public class ManyOfAKind implements Category {
             .findByThreshold(threshold)
             .max(Integer::compareTo)
             .map(dice -> dice * threshold);
-        return score.orElse(0);
+        return score.orElse(NO_COMBINATION_SCORE);
     }
 }
