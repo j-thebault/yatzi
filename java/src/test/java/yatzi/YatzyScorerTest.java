@@ -38,11 +38,19 @@ public class YatzyScorerTest {
             );
     }
 
-    @Test public void test_1s() {
-        assertTrue(YatzyScorer.ones(1,2,3,4,5) == 1);
-        assertEquals(2, YatzyScorer.ones(1,2,1,4,5));
-        assertEquals(0, YatzyScorer.ones(6,2,2,4,5));
-        assertEquals(4, YatzyScorer.ones(1,2,1,1,1));
+    @ParameterizedTest(name = "#{index} - Ones {0}")
+    @MethodSource
+    public void onesSpecification(YatzySpecification spec) {
+        assertEquals(spec.expectedResult, new YatzyScorer(spec.dices).ones());
+    }
+
+    private static Stream<YatzySpecification> onesSpecification(){
+        return Stream.of(
+            new YatzySpecification(List.of(1,2,3,4,5), 1),
+            new YatzySpecification(List.of(1,2,1,4,5), 2),
+            new YatzySpecification(List.of(6,2,2,4,5), 0),
+            new YatzySpecification(List.of(1,2,1,1,1), 4)
+        );
     }
 
     @Test
