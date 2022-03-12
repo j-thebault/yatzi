@@ -14,7 +14,7 @@ public class TwoPairs implements Category {
 
     private List<Integer> findPairs(List<Integer> dices) {
         return Multiples.fromDices(dices)
-            .findMultiple(2)
+            .findByThreshold(2)
             .collect(Collectors.toList());
     }
 

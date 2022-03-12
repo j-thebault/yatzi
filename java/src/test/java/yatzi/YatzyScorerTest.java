@@ -187,6 +187,22 @@ public class YatzyScorerTest {
         );
     }
 
+    @ParameterizedTest(name = "#{index} - Full House {0}")
+    @MethodSource
+    public void fullHouseSpecification(YatzySpecification spec) {
+        assertEquals(spec.expectedResult, new YatzyScorer(spec.dices).fullHouse());
+    }
+
+    private static Stream<YatzySpecification> fullHouseSpecification(){
+        return Stream.of(
+            new YatzySpecification(List.of(2,3,4,5,6), 0),
+            new YatzySpecification(List.of(2,2,3,3,4), 0),
+            new YatzySpecification(List.of(4,4,4,4,4), 0),
+            new YatzySpecification(List.of(6,2,2,2,6), 18),
+            new YatzySpecification(List.of(6,6,2,2,6), 22)
+        );
+    }
+
     @Test
     public void smallStraight() {
         assertEquals(15, YatzyScorer.smallStraight(1,2,3,4,5));
@@ -199,12 +215,6 @@ public class YatzyScorerTest {
         assertEquals(20, YatzyScorer.largeStraight(6,2,3,4,5));
         assertEquals(20, YatzyScorer.largeStraight(2,3,4,5,6));
         assertEquals(0, YatzyScorer.largeStraight(1,2,2,4,5));
-    }
-
-    @Test
-    public void fullHouse() {
-        assertEquals(18, YatzyScorer.fullHouse(6,2,2,2,6));
-        assertEquals(0, YatzyScorer.fullHouse(2,3,4,5,6));
     }
 
     static class YatzySpecification {

@@ -14,7 +14,7 @@ public class ManyOfAKind implements Category {
     @Override
     public Integer score(List<Integer> dices) {
         Optional<Integer> score = Multiples.fromDices(dices)
-            .findMultiple(threshold)
+            .findByThreshold(threshold)
             .max(Integer::compareTo)
             .map(dice -> dice * threshold);
         return score.orElse(0);
