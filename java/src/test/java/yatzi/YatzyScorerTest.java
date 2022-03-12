@@ -154,19 +154,37 @@ public class YatzyScorerTest {
         );
     }
 
-    @Test
-    public void three_of_a_kind()
-    {
-        assertEquals(9, YatzyScorer.three_of_a_kind(3,3,3,4,5));
-        assertEquals(15, YatzyScorer.three_of_a_kind(5,3,5,4,5));
-        assertEquals(9, YatzyScorer.three_of_a_kind(3,3,3,3,5));
+    @ParameterizedTest(name = "#{index} - Three of a kind {0}")
+    @MethodSource
+    public void threeOfAKindSpecification(YatzySpecification spec) {
+        assertEquals(spec.expectedResult, new YatzyScorer(spec.dices).threeOfAKind());
     }
 
-    @Test
-    public void four_of_a_knd() {
-        assertEquals(12, YatzyScorer.four_of_a_kind(3,3,3,3,5));
-        assertEquals(20, YatzyScorer.four_of_a_kind(5,5,5,4,5));
-        assertEquals(9, YatzyScorer.three_of_a_kind(3,3,3,3,3));
+    private static Stream<YatzySpecification> threeOfAKindSpecification(){
+        return Stream.of(
+            // Same as onePairSpecification, I added a "no match" spec that check the 0 score.
+            new YatzySpecification(List.of(1,2,3,4,5), 0),
+            new YatzySpecification(List.of(3,3,3,4,5), 9),
+            new YatzySpecification(List.of(5,3,5,4,5), 15),
+            new YatzySpecification(List.of(3,3,3,3,5), 9),
+            new YatzySpecification(List.of(3,3,3,3,3), 9)
+        );
+    }
+
+    @ParameterizedTest(name = "#{index} - Four of a kind {0}")
+    @MethodSource
+    public void fourOfAKindSpecification(YatzySpecification spec) {
+        assertEquals(spec.expectedResult, new YatzyScorer(spec.dices).fourOfAKind());
+    }
+
+    private static Stream<YatzySpecification> fourOfAKindSpecification(){
+        return Stream.of(
+            // Same as onePairSpecification, I added a "no match" spec that check the 0 score.
+            new YatzySpecification(List.of(1,2,3,4,5), 0),
+            new YatzySpecification(List.of(3,3,3,3,5), 12),
+            new YatzySpecification(List.of(5,5,5,4,5), 20),
+            new YatzySpecification(List.of(3,3,3,3,3), 12)
+        );
     }
 
     @Test
